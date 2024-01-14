@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer JavaScript</title>
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- STYLES -->
+    <style>
+       * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+       }
+
+       body {
+        background: url('./timer-bg.jpg') no-repeat center center / cover;
+
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+       }
+
+       .container {
+        width: 60%;
+        height: 250px;
+        background-color: #fff;
+        border-radius: 30px;
+        }
+
+      #timer {
+        width: 100%;
+        padding-top: 35px;
+        font-size: 72px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .buttons {
+       text-align: center;
+       margin-top: 30px;
+      }
+
+      button {
+        margin: 0 10px;
+        border: none;
+      }
+
+      button i {
+        color: #fff;
+        padding: 10px;
+        font-size: 2rem;
+        width: 50px;
+      }
+
+      #play {
+        background-color: green;
+      }
+      #pause {
+        background-color: orange;
+      }
+      #reset {
+        background-color: red;
+      }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="timer">
+            00:00:00
+        </div>
+        <div class="buttons">
+             <button id="StartStopBtn">
+                <i class="fa-solid fa-play" id="play"></i>
+             </button>
+             <button id="resetBtn">
+                <i class="fa-solid fa-rotate-left" id="reset"></i>
+             </button>
+        </div>
+    </div>
+
+    <!-- SCRIPT -->
+
+    <script>
+        //variables for buttons
+
+        const StartStopBtn = document.querySelector('#StartStopBtn');
+        const reset = document.querySelector('#resetBtn');
+
+        //variables for timer
+
+        let seconds = 0;
+        let minutes = 0;
+        let hours = 0;
+
+        // variables for time interval and Status
+        let timeStatus = 'stopped';
+        let timeInterval = null;
+
+
+        function stopWatch () {
+
+            seconds++ 
+
+            if (seconds / 60 === 1) {
+                seconds = 0;
+                minutes ++;
+
+                if (minutes / 60 === 1) {
+                    minutes = 0;
+                    hours ++;
+                }
+            }
+
+            let secondsDisplayed = '';
+            let minutesDisplayed = '';
+            let hoursDisplayed = '';
+
+            if (seconds < 10) {
+                secondsDisplayed = "0" + seconds;
+            }else {
+                secondsDisplayed = seconds
+            }
+            if (minutes < 10) {
+                minutesDisplayed = "0" + minutes;
+            }else {
+                minutesDisplayed = minutes
+            }
+            if (hours < 10) {
+                hoursDisplayed = "0" + hours;
+            }else {
+                hoursDisplayed = hours
+            }
+
+
+            let Timer = document.getElementById('timer').innerHTML = hoursDisplayed + ':' + minutesDisplayed + ':' + secondsDisplayed;
+
+        }
+
+        StartStopBtn.addEventListener('click', function () {
+            if (timeStatus === 'stopped') {
+                timeInterval = setInterval(stopWatch, 1000);
+                StartStopBtn.innerHTML = '<i class="fa-solid fa-pause" id="pause"><i>';
+                timeStatus = 'started';
+            
+            }else {
+                window.clearInterval(timeInterval);
+                StartStopBtn.innerHTML = '<i class="fa-solid fa-play" id="play"></i>';
+                timeStatus = 'stopped';
+            }
+        })
+
+        reset.addEventListener('click', function() {
+            seconds = 0;
+            minutes = 0;
+            hours = 0;
+            window.clearInterval(timeInterval);
+            let Timer = document.getElementById('timer').innerHTML = '00:00:00'
+            StartStopBtn.innerHTML = '<i class="fa-solid fa-play" id="play"></i>';
+
+        })
+        
+
+        // 
+
+    </script>
+</body>
+</html>
